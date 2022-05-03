@@ -29,6 +29,8 @@ A full crustal model has been defined with three layers, upper crust, lower crus
 upper mantle.The thickness of these layers vary regionally, as well as the
 Radiogenic Heat Production in the upper and lower crust layers.
 
+![This is an image](./RHP_slide.png)
+
 ### Machine Learning to compute instantly Temperature and Standard Thermal Stress
 
 A ML model has been trained following the methodology developed by Laigle et al. 2018.
