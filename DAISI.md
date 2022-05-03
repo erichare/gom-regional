@@ -1,8 +1,10 @@
 
 # Interactive Regional GOM Model
 
-
-This daisi is a deployed version of the regional GOM model.
+This daisi is the deployment of the code of the paper
+**Outcrop to Basin center thermal evolution of the US Gulf of Mexico Basin**,
+Andrew Pepper, Nawaz Bugti, Lara Heister, Julie O’Leary, Jean-Marie Laigle, Elizabeth Roller, Jack Stalnaker, Paul Mann and Rob Pascoe.  
+Presented at the conference AAPG - SEG IMAGE, Denver, 29th September 2021.
 
 The model can be accessed:
 
