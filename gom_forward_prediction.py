@@ -157,7 +157,7 @@ def compute_history(input_vectors, history_model):
 ##################################################################################################
 def get_predictions(data, variable):
 
-	if len(data.shape != 3):
+	if len(data.shape) != 3:
 		return "Found shape " + str(data.shape) + " Please provide a data array with shape (16, ny, nx)."
 
 	else:
