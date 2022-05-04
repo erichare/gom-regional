@@ -149,9 +149,9 @@ def create_hv_plot(da, well_display, property, contours_display):
     mask_lon = (in_data.x >= min_lon) & (in_data.x <= max_lon)
     mask_lat = (in_data.y >= min_lat) & (in_data.y <= max_lat)
     
-    in_data = in_data.where(mask_lon & mask_lat, drop=True)
+    cropped_data = in_data.where(mask_lon & mask_lat, drop=True)
 
-    left, bottom, right, top = in_data.rio.bounds()
+    left, bottom, right, top = cropped_data.rio.bounds()
 
     key_dims = ['x', 'y']
     value_dimension = 'value'

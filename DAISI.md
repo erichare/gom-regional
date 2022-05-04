@@ -71,8 +71,8 @@ You will access the `predict` endpoint with the `pydaisi` package
     - Grids 6 to 10 contain the sand/shale ratio map for the 5 layers, between 0 and 1
     - Grid 11 : Total Crust thickness (m)
     - Grid 12 : Upper Crust RHP ()
-    - Grid 13 : Upper Mantle thickness (m)
-    - Grid 14 : Lower Crust RHP
+    - Grid 13 : Lower Crust RHP
+    - Grid 14 : Upper Mantle thickness (m)
     - Grid 15 : present day surface temperature
 
 3. Get predictions

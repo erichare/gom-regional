@@ -16,6 +16,12 @@ import json
 import holoviews as hv
 import pickle
 
+##################################################################################################
+class NN:
+	def __init__(self, model, out_property_name, out_property_unit):
+		self.model = keras.models.load_model(model, compile=False)
+		self.out_property_name = out_property_name
+		self.out_property_unit = out_property_unit
 
 cdict = {'red': [(0.0, 0.0078, 0.0078),
                  (0.06249, 0.0078, 0.0078),
@@ -46,6 +52,31 @@ cdict = {'red': [(0.0, 0.0078, 0.0078),
         }
 
 cmp = mcolors.LinearSegmentedColormap('my_cmp', segmentdata=cdict, N=256)
+path = 'data/'
+
+mat_model = NN(path + 'trained_model_EzRo.h5', 'EasyRo', 'EzRo')
+history_model = NN(path + 'nn_mat_history.h5', 'EasyRo', 'EzRo')
+temp_model = NN(path + 'trained_model_Temperature.h5', 'Temperature', 'C')
+transform_data = np.load(path + 'transform.npz')
+
+affine = np.load(path + 'project_affine.npy')
+
+d = np.load(path + 'mapstack.npz')
+data_array = d['mapstack']
+
+
+data_array[data_array<-9000] = np.nan
+
+for i in range(5):
+	thickness = data_array[i+1] - data_array[i]
+	thickness[thickness < 1] = 10.0
+	data_array[i+1] = data_array[i] + thickness
+
+f = 'data/STS_ezRo.csv'
+ro_sts = pd.read_csv(f, sep=';')
+
+depths = data_array[:6]
+lithos = data_array[6:11]
 
 
 ##################################################################################################
@@ -105,12 +136,7 @@ def predict(input, model):
 
 	return prediction
 
-##################################################################################################
-class NN:
-	def __init__(self, model, out_property_name, out_property_unit):
-		self.model = keras.models.load_model(model, compile=False)
-		self.out_property_name = out_property_name
-		self.out_property_unit = out_property_unit
+
 
 ##################################################################################################
 def compute(input_vectors, mat_model, temp_model):
@@ -128,7 +154,26 @@ def compute_history(input_vectors, history_model):
 
 	return history
 
+##################################################################################################
+def get_predictions(data, variable):
 
+	if len(data.shape != 3):
+		return "Found shape " + str(data.shape) + " Please provide a data array with shape (16, ny, nx)."
+
+	else:
+		ny = data.shape[1]
+		nx = data.shape[2]
+		array_to_compute = data.reshape((data.shape[0], nx*ny))
+		input_vectors = prepare_vector(transform_data, data_array = array_to_compute)
+		models = {'temperature' : temp_model.model, 'maturity': mat_model.model, 'maturity_history' : history_model.model}
+
+		if variable in models:
+			prediction = predict(input_vectors, models[variable])
+			return prediction.reshape((prediction.shape[0], ny, nx))
+
+		else:
+			return "Unsupported variable type. Please use temperature, maturity or maturity_history"
+	
 
 ##################################################################################################
 def load_GOM_data(path):
@@ -165,8 +210,8 @@ def st_ui():
 	st.set_page_config(layout = "wide")
 
 	# Load NN models and transform
-	path = 'data/'
-	transform_data, mat_model, temp_model, history_model, affine, data_array, ro_sts, depths, lithos = load_GOM_data(path)
+	
+	# transform_data, mat_model, temp_model, history_model, affine, data_array, ro_sts, depths, lithos = load_GOM_data(path)
 	print(affine)
 	dx = affine[6]
 	dy = affine[7]
