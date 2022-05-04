@@ -169,7 +169,7 @@ def get_predictions(data, variable):
 
 		if variable in models:
 			prediction = predict(input_vectors, models[variable])
-			return prediction.reshape((prediction.shape[1], ny, nx))
+			return prediction #.reshape((prediction.shape[1], ny, nx))
 
 		else:
 			return "Unsupported variable type. Please use temperature, maturity or maturity_history"
