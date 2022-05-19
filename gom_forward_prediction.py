@@ -16,6 +16,7 @@ import json
 import holoviews as hv
 import pickle
 
+
 ##################################################################################################
 class NN:
 	def __init__(self, model, out_property_name, out_property_unit):
