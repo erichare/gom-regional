@@ -37,7 +37,6 @@ cdict = {'red': [(0.0, 0.0078, 0.0078),
                  (1.0, 0.85, 0.85)]
         }
 
-@st.cache(allow_output_mutation=True)
 def get_polygons():
     with fiona.open('data/cb_2018_nation.geojson', 'r') as in_file:
         nation_shps = [feature['geometry'] for feature in in_file]
